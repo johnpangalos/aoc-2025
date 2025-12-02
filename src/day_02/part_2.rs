@@ -1,3 +1,5 @@
+#![feature(string_remove_matches)]
+#![feature(slice_partition_dedup)]
 use std::fs;
 
 fn main() {
@@ -18,15 +20,24 @@ fn main() {
         let max = res.next().unwrap() + 1;
         for val in min..max {
             let val_str = val.to_string();
-            let head = val_str.chars().take(val_str.len() / 2);
-            let tail = val_str.chars().skip(val_str.len() / 2);
-            if head.eq(tail) {
-                v.push(val);
+            for i in 1..(val_str.len() / 2) + 1 {
+                if (val_str.len() % i) != 0 {
+                    continue;
+                }
+                let sub_str = &val_str.clone()[0..i];
+                let mut str = val_str.clone();
+                str.remove_matches(sub_str);
+
+                if str.len() == 0 {
+                    v.push(val);
+                }
             }
         }
     }
     let mut sum = 0;
-    for i in v.iter() {
+    let (dedup, _duplicates) = v.partition_dedup_by(|a, b| a.to_owned().eq(b));
+
+    for i in dedup.iter() {
         sum = sum + i;
     }
 
