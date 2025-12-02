@@ -1,6 +1,7 @@
 use std::fs;
+
 fn main() {
-    let filename = "./src/day01/input.txt";
+    let filename = "./src/day_01/input.txt";
     let file = fs::read_to_string(filename);
     let contents = match file {
         Ok(contents) => contents,
