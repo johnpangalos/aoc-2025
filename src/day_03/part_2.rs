@@ -1,4 +1,3 @@
-// use std::cmp;
 use std::fs;
 
 fn main() {
@@ -23,10 +22,6 @@ fn main() {
 
         let mut num: Vec<isize> = vec![];
 
-        let mut budget = 0;
-        let max_budget = arr.len() - 12;
-
-        // 3133322312313332336153233333232281412234221222433272332313372222212233114622232233232321251122522243
         let mut idx = 0;
         for val in &arr {
             idx = idx + 1;
@@ -42,10 +37,6 @@ fn main() {
                     break;
                 }
                 iteration = iteration + 1;
-                if budget >= max_budget {
-                    num.push(*val);
-                    break;
-                }
                 let prev = match num.pop() {
                     Some(v) => v,
                     None => panic!("ahhhhh, I'm panicing"),
@@ -62,10 +53,8 @@ fn main() {
                 }
                 if num.len() == 0 {
                     num.push(*val);
-                    budget = budget + 1;
                     break;
                 }
-                budget = budget + 1;
             }
         }
         let out = num
