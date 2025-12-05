@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fs};
 
 fn main() {
-    let filename = "./src/day_04/example.txt";
+    let filename = "./src/day_04/input.txt";
     let file = fs::read_to_string(filename);
     let contents = match file {
         Ok(contents) => contents,
@@ -24,7 +24,6 @@ fn main() {
 
     let mut sum = 0;
     let mut last_sum = 0;
-    let mut idx = 0;
     'outer: loop {
         let mut cln = map.clone();
         'inner: for ele in map.clone().into_iter() {
@@ -64,11 +63,6 @@ fn main() {
         }
         map = cln;
         last_sum = sum;
-        println!("idx: {}, last_sum: {}, sum {}", idx, last_sum, sum);
-        idx = idx + 1;
-        if idx > 10 {
-            break 'outer;
-        }
     }
     println!("{}", sum);
 }
