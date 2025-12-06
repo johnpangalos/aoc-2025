@@ -1,4 +1,10 @@
-use std::{collections::HashMap, fs};
+---cargo
+[dependencies]
+rustc-hash = { version = "2.1.1" }
+---
+
+use rustc_hash::FxHashMap;
+use std::fs;
 
 fn main() {
     let filename = "./src/day_04/input.txt";
@@ -9,7 +15,7 @@ fn main() {
     };
     let row_str = contents.as_str().split("\n").filter(|x| !x.is_empty());
     let grid = row_str.map(|x| x.split("").filter(|x| !x.is_empty()));
-    let mut map: HashMap<(isize, isize), &str> = HashMap::new();
+    let mut map: FxHashMap<(isize, isize), &str> = FxHashMap::default();
     let mut i = 0;
     let mut max: (isize, isize) = (0, 0);
     for row in grid {
