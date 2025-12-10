@@ -77,24 +77,17 @@ fn main() {
     keys.sort();
     let mut circuits: Vec<Vec<Point>> = vec![];
     let mut used_points: Vec<Point> = vec![];
-    let mut i = 0;
-    for k in keys {
-        if i == 1000 {
-            break;
-        }
-
+    'outer: for k in keys {
         let val = match hash.get(k) {
             Some(val) => val,
             None => panic!("this key '{}' doesn't exist in hash", k),
         };
         for v in val {
-            i = i + 1;
-
             if circuits
                 .iter()
                 .any(|x| x.contains(&v.0) && x.contains(&v.1))
             {
-                continue;
+                ()
             } else if used_points.contains(&v.0) && used_points.contains(&v.1) {
                 let cir_1 = circuits.clone();
                 let res_1 = match cir_1.iter().find(|x| x.contains(&v.0)) {
@@ -161,12 +154,10 @@ fn main() {
                 used_points.push(v.0);
                 used_points.push(v.1);
             }
+            if circuits.len() == 1 && circuits.get(0).unwrap().len() == boxes.len() {
+                println!("{}, {:?}", v.0.0 * v.1.0, v);
+                break 'outer;
+            }
         }
     }
-    let mut lns: Vec<_> = vec![];
-    for c in circuits.clone().into_iter() {
-        lns.push(c.len());
-    }
-    lns.sort();
-    println!("{}", lns.iter().rev().take(3).fold(1, |acc, x| acc * x))
 }
